@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "581173020998",
+    "project_id": "deep-ee590",
+    "storage_bucket": "deep-ee590.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:581173020998:android:4389de33d59ecc035a7d47",
+        "android_client_info": {
+          "package_name": "com.firebaseproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "581173020998-0ab1g1rvt0c2t3idg6ssf50l8mbdjc8f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCT-Opul05AZ7pdpErHMnEysnDlQAzZLuU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "581173020998-0ab1g1rvt0c2t3idg6ssf50l8mbdjc8f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
