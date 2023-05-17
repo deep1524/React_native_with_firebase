@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {
   Button,
   Dimensions,
+  FlatList,
+  SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
@@ -11,25 +13,33 @@ import database from '@react-native-firebase/database';
 const Todo = () => {
   const [list, setList] = useState(null);
   const [textinputvalue, setTextinputvalue] = useState(null);
-    const getdata = async () => {
-      try {
-        const data = await database().ref('todo/1').once('value');
-        console.log(data);
-        setList(data.val());
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    useEffect(() => {
-        getdata();
-    }, []);
-// add data in firebase realtime database
-  const adddata = async () => {
+  const getdata = async () => {
     try {
+      // const data = await database().ref('todo').once('value');
+      const data = await database()
+        .ref('todo')
+        .on('value', tempData => {
+          setList(tempData.val());
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getdata();
+  }, []);
+  console.log('data', list);
+  // add data in firebase realtime database
+  const adddata = async () => {
+    
+   
+    try {
+      let index = list.length;
       const response = await database()
-        .ref('todo/1')
+        .ref(`todo/${index}`)
         .set({Task: textinputvalue});
       console.log(response);
+      setTextinputvalue("");
     } catch (error) {
       console.log(error);
     }
@@ -45,12 +55,24 @@ const Todo = () => {
       />
       <Button title="ADD" onPress={adddata}></Button>
 
+      <View style={styles.Cardcontainer}>
+        <Text>TODO LIST</Text>
 
-      <View>
-        <Text>Task:-{list?list.Task:"loading"}</Text>
-        </View>
+        <FlatList
+          data={list}
+          renderItem={item => {
+            console.log(item);
+            if (item.item !== null) {
+              return (
+                <View style={styles.card}>
+                  <Text>{item.item.Task}</Text>
+                </View>
+              );
+            }
+          }}
+        />
+      </View>
     </View>
-   
   );
 };
 
@@ -68,6 +90,8 @@ const styles = StyleSheet.create({
     padding: 25,
     borderRadius: 15,
   },
+  Cardcontainer: {},
+  card: {},
 });
 
 export default Todo;
