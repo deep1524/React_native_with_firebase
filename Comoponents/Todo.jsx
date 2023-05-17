@@ -3,12 +3,12 @@ import {
   Button,
   Dimensions,
   FlatList,
-  SafeAreaView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
+  Alert,
 } from 'react-native';
 import database from '@react-native-firebase/database';
 const Todo = () => {
@@ -43,8 +43,8 @@ const Todo = () => {
           .set({Task: textinputvalue});
         console.log(response);
         setTextinputvalue('');
-      }else{
-        alert("Please enter a text input & then try again")
+      } else {
+        alert('Please enter a text input & then try again');
       }
     } catch (error) {
       console.log(error);
@@ -59,8 +59,8 @@ const Todo = () => {
         console.log(response);
         setTextinputvalue('');
         setIsUpdate(false);
-      }else{
-        alert("Please enter a text input & then try again")
+      } else {
+        alert('Please enter a text input & then try again');
       }
     } catch (error) {
       console.log(error);
@@ -71,6 +71,37 @@ const Todo = () => {
       setIsUpdate(true);
       setSelectedcardindex(cardindex);
       setTextinputvalue(cardvalue);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handlelongpressdelete = (cardindex, cardvalue) => {
+    try {
+      Alert.alert('Alert', `Are you sure to delete:- ${cardvalue}`, [
+        {
+          text: 'Cancel',
+          onPress: () => {
+            console.log('cancel is press');
+          },
+        },
+        {text: 'OK', onPress: async() => {
+          try {
+            const response=await database().ref(`todo/${cardindex}`).remove();
+            console.log(response);
+              setTextinputvalue("");
+             setIsUpdate(false);
+
+
+          } catch (error) {
+            console.log('error');
+          }
+       
+        },},
+      ]);
+      
+    
+     
     } catch (error) {
       console.log(error);
     }
@@ -102,7 +133,10 @@ const Todo = () => {
               return (
                 <TouchableOpacity
                   style={styles.card}
-                  onPress={() => handlecardpress(cardindex, item.item.Task)}>
+                  onPress={() => handlecardpress(cardindex, item.item.Task)}
+                  onLongPress={() =>
+                    handlelongpressdelete(cardindex, item.item.Task)
+                  }>
                   <Text>{item.item.Task}</Text>
                 </TouchableOpacity>
               );
