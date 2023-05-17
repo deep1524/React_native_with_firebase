@@ -7,12 +7,16 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import database from '@react-native-firebase/database';
 const Todo = () => {
   const [list, setList] = useState(null);
   const [textinputvalue, setTextinputvalue] = useState(null);
+  const [isupdate, setIsUpdate] = useState(false);
+  const [selectedcardindex, setSelectedcardindex] = useState(null);
+
   const getdata = async () => {
     try {
       // const data = await database().ref('todo').once('value');
@@ -31,15 +35,42 @@ const Todo = () => {
   console.log('data', list);
   // add data in firebase realtime database
   const adddata = async () => {
-    
-   
     try {
-      let index = list.length;
-      const response = await database()
-        .ref(`todo/${index}`)
-        .set({Task: textinputvalue});
-      console.log(response);
-      setTextinputvalue("");
+      if (textinputvalue.length > 0) {
+        let index = list.length;
+        const response = await database()
+          .ref(`todo/${index}`)
+          .set({Task: textinputvalue});
+        console.log(response);
+        setTextinputvalue('');
+      }else{
+        alert("Please enter a text input & then try again")
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handleUpdate = async () => {
+    try {
+      if (textinputvalue.length > 0) {
+        const response = await database()
+          .ref(`todo/${selectedcardindex}`)
+          .update({Task: textinputvalue});
+        console.log(response);
+        setTextinputvalue('');
+        setIsUpdate(false);
+      }else{
+        alert("Please enter a text input & then try again")
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handlecardpress = (cardindex, cardvalue) => {
+    try {
+      setIsUpdate(true);
+      setSelectedcardindex(cardindex);
+      setTextinputvalue(cardvalue);
     } catch (error) {
       console.log(error);
     }
@@ -53,7 +84,11 @@ const Todo = () => {
         value={textinputvalue}
         onChangeText={text => setTextinputvalue(text)}
       />
-      <Button title="ADD" onPress={adddata}></Button>
+      {!isupdate ? (
+        <Button title="ADD" onPress={adddata}></Button>
+      ) : (
+        <Button title="Update" onPress={handleUpdate}></Button>
+      )}
 
       <View style={styles.Cardcontainer}>
         <Text>TODO LIST</Text>
@@ -61,12 +96,15 @@ const Todo = () => {
         <FlatList
           data={list}
           renderItem={item => {
+            const cardindex = item.index;
             console.log(item);
             if (item.item !== null) {
               return (
-                <View style={styles.card}>
+                <TouchableOpacity
+                  style={styles.card}
+                  onPress={() => handlecardpress(cardindex, item.item.Task)}>
                   <Text>{item.item.Task}</Text>
-                </View>
+                </TouchableOpacity>
               );
             }
           }}
