@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import auth from '@react-native-firebase/auth';
 
-import {useNavigation} from '@react-navigation/native';
+import {StackActions, useNavigation} from '@react-navigation/native';
 import {
   Button,
   Dimensions,
@@ -24,10 +24,11 @@ const LoginScreen = () => {
             const isuserLogin = await auth().signInWithEmailAndPassword(email, pass);
             console.log(isuserLogin);
             setMesseage('');
-            navigation.navigate('Home', {
-              email: isuserLogin.user.email,
-              usersid: isuserLogin.user.uid,
-            });
+            // navigation.navigate('Home', {
+            //   email: isuserLogin.user.email,
+            //   usersid: isuserLogin.user.uid,
+            // });
+            navigation.dispatch(StackActions.replace("Home"));
         }else{
             alert("please fill the username and password")
         }

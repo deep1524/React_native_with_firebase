@@ -1,6 +1,6 @@
 import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
-import {useRoute} from '@react-navigation/native';
+import {StackActions, useRoute} from '@react-navigation/native';
 import Auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
 const HomeScreen = () => {
@@ -25,7 +25,8 @@ const HomeScreen = () => {
         }}
         onPress={async() => {
           await Auth().signOut();
-          navigation.navigate('Login');
+          // navigation.navigate('Login');
+          navigation.dispatch(StackActions.popToTop());
         }}>
         <Text style={{color: 'white'}}>Logout</Text>
       </TouchableOpacity>
