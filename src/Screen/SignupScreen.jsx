@@ -19,9 +19,14 @@ const SignUpScreen = () => {
   const navigation = useNavigation();
   const handleSignUp = async () => {
     try {
-     const isusercreated=await auth().createUserWithEmailAndPassword(email,pass) ;  
-     console.log(isusercreated);
-     navigation.navigate('Login');
+        if(email.length && pass.length>0){
+            const isusercreated=await auth().createUserWithEmailAndPassword(email,pass) ;  
+            console.log(isusercreated);
+            navigation.navigate('Login');
+        }else{
+            alert("Please fill the detailes")
+        }
+    
     } catch (error) {
       console.log(error)
         setMesseage(error.message)

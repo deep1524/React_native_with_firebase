@@ -19,14 +19,19 @@ const LoginScreen = () => {
   const navigation = useNavigation();
   const handleLogin = async () => {
     try {
-      console.log(email, pass);
-      const isuserLogin = await auth().signInWithEmailAndPassword(email, pass);
-      console.log(isuserLogin);
-      setMesseage('');
-      navigation.navigate('Home', {
-        email: isuserLogin.user.email,
-        usersid: isuserLogin.user.uid,
-      });
+        if(email.length && pass.length>0){
+           
+            const isuserLogin = await auth().signInWithEmailAndPassword(email, pass);
+            console.log(isuserLogin);
+            setMesseage('');
+            navigation.navigate('Home', {
+              email: isuserLogin.user.email,
+              usersid: isuserLogin.user.uid,
+            });
+        }else{
+            alert("please fill the username and password")
+        }
+    
     } catch (error) {
       console.log(error);
       setMesseage(error.message);
