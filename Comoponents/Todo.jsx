@@ -99,9 +99,6 @@ const Todo = () => {
        
         },},
       ]);
-      
-    
-     
     } catch (error) {
       console.log(error);
     }
