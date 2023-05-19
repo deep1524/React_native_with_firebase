@@ -26,7 +26,7 @@ const HomeScreen = () => {
         onPress={async() => {
           await Auth().signOut();
           // navigation.navigate('Login');
-          navigation.dispatch(StackActions.popToTop());
+          navigation.dispatch(StackActions.replace("Login"));
         }}>
         <Text style={{color: 'white'}}>Logout</Text>
       </TouchableOpacity>

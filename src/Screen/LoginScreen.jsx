@@ -19,16 +19,24 @@ const LoginScreen = () => {
   const navigation = useNavigation();
   const handleLogin = async () => {
     try {
-        if(email.length && pass.length>0){
+        if(email.length > 0 && pass.length>0){
            
             const isuserLogin = await auth().signInWithEmailAndPassword(email, pass);
             console.log(isuserLogin);
-            setMesseage('');
+            if(isuserLogin.user.emailVerified){
+                 alert("You are verified");
+                  navigation.dispatch(StackActions.replace("Home"));
+            }else{
+              alert("please verify your email");
+              await auth().currentUser.sendEmailVerification();
+              await auth().signOut(); 
+            }
+            // setMesseage('');
             // navigation.navigate('Home', {
             //   email: isuserLogin.user.email,
             //   usersid: isuserLogin.user.uid,
             // });
-            navigation.dispatch(StackActions.replace("Home"));
+           
         }else{
             alert("please fill the username and password")
         }

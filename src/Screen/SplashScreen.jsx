@@ -7,13 +7,14 @@ const SplashScreen = () => {
   // to find out the use state
 
   useEffect(() => {
-    setTimeout(() => {
-      Auth().onAuthStateChanged(user => {
+    setTimeout(async () => {
+      const unsubscribe = await  Auth().onAuthStateChanged(user => {
         const routeName = user !== null ? 'Home' : 'Login';
         // navigation.navigate(routeName);
-        navigation.dispatch(StackActions.replace(routeName)); 
-        
+        unsubscribe();
+        navigation.dispatch(StackActions.replace(routeName));
       });
+     
     }, 3000);
 
     return () => {};
