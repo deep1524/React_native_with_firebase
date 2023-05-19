@@ -1,5 +1,5 @@
 import React from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Text, TouchableOpacity, View,Button} from 'react-native';
 import {StackActions, useRoute} from '@react-navigation/native';
 import Auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
@@ -11,7 +11,11 @@ const HomeScreen = () => {
   return (
     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
       <Text style={{fontSize: 30}}>HomeScreen</Text>
+
+      <Button title='Profile' onPress={()=>navigation.navigate("ImageUpload")}></Button>
       {/* // it will comes directly to auth */}
+
+
       <Text style={{fontSize: 15}}>Email:{Auth().currentUser.email}</Text>
       <Text style={{fontSize: 15}}>UserID:{Auth().currentUser.uid}</Text>
       <TouchableOpacity
@@ -30,6 +34,7 @@ const HomeScreen = () => {
         }}>
         <Text style={{color: 'white'}}>Logout</Text>
       </TouchableOpacity>
+    
     </View>
   );
 };

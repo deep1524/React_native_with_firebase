@@ -8,6 +8,7 @@ import LoginScreen from '../Screen/LoginScreen';
 import HomeScreen from '../Screen/HomeScreen';
 import SplashScreen from '../Screen/SplashScreen';
 import Mobile_verify_Screen from '../Screen/Mobile_verify_Screen';
+import ImageUpload from '../Screen/ImageUpload';
 
 const Stack = createNativeStackNavigator();
 
@@ -15,9 +16,10 @@ function MainNavigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Mobile" component={Mobile_verify_Screen} />
+        {/* <Stack.Screen name="Mobile" component={Mobile_verify_Screen} /> */}
+        
 
-        {/* <Stack.Screen
+        <Stack.Screen
          name="Splash" 
          component={SplashScreen} 
          />
@@ -33,7 +35,9 @@ function MainNavigation() {
         <Stack.Screen 
         name="Home" 
         component={HomeScreen} 
-        /> */}
+        /> 
+        
+        <Stack.Screen name="ImageUpload" component={ImageUpload} />
       </Stack.Navigator>
     </NavigationContainer>
   );
