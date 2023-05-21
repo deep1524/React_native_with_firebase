@@ -17,6 +17,7 @@ const ImageUpload = () => {
         copyTo:"cachesDirectory",
       });
       console.log(response);
+      alert("image successfully picked")
       setImagedata(response);
      
     } catch (error) {
@@ -25,19 +26,24 @@ const ImageUpload = () => {
   };
   const uploadimage=  async()=>{
     try {
-        const response= await storage().ref(`/profile/${imagedata.name}`).putFile(imagedata.fileCopyUri);
-       console.log(response);
-       setfullimagerefpath(response.metadata.fullPath)
-      //  const url= await response.ref.getDownloadURL();
-      //  setimageurl(url);
+      //   const response= await storage().ref(`/profile/${imagedata.name}`).putFile(imagedata.fileCopyUri);
+      //  console.log(response);
+      const response=storage().ref(`/profile/${imagedata.name}`);
+      const put=await response.putFile(imagedata.fileCopyUri);
+       setfullimagerefpath(put.metadata.fullPath)
+       const url= await response.getDownloadURL();
+       setimageurl(url);
+       alert("image upload sucessfully")
     } catch (error) {
         console.log(error);
         
     }
   }
-  const deleteimage=()=>{
+  const deleteimage=async()=>{
     try {
-      
+      const response=await storage().ref(fullimagerefpath).delete();
+      console.log(response);
+      alert("image delete sucessfully");
     } catch (error) {
       console.log(error);
     }
@@ -56,6 +62,9 @@ const ImageUpload = () => {
       </View>
       <View>
         <Text>Url:-{imageurl.length>0?imageurl:"Url not found"}</Text>
+      </View>
+      <View>
+        <Image source={{uri:imageurl}} style={{height:300,width:300}}></Image>
       </View>
     </View>
   );
