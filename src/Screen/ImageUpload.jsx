@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, Button, Image} from 'react-native';
 import DocumentPicker from 'react-native-document-picker';
 
-
+// storage
 import storage from '@react-native-firebase/storage';
 
 
